@@ -67,16 +67,12 @@ module ChinesePermalink
   class Translate
     class <<self
 
-      def config
-        @config ||= YAML.load(File.open(File.join(Rails.root, "config/chinese_permalink.yml")))['bing']
-      end
-
       def t(text)
-        self.translator.translate(text, :from => config['language'], :to => 'en')
+        self.translator.translate(text, :from => ENV['BING_APP_LANGUAGE'], :to => 'en')
       end
 
       def translator
-        @translator ||= BingTranslator.new(config['client_id'], config['client_secret'])
+        @translator ||= BingTranslator.new(ENV['BING_APP_CLIENT_ID'], ENV['BING_APP_CLIENT_SECRET'])
       end
     end
   end
